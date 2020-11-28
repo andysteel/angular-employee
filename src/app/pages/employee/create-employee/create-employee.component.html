@@ -1,0 +1,44 @@
+<style>
+  .form-style {
+    margin-top: 24px;
+  }
+</style>
+<div class="form-style">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name">Name</nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Name is required !">
+          <input nz-input formControlName="name" id="name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="jobRole" nzRequired>Job Role</nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Job Role is required !">
+          <input nz-input id="jobRole" formControlName="jobRole" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="salary" nzRequired>Salary</nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Salary is required !">
+            <input currencyMask [options]="{ prefix: 'US$ ', thousands: '.', decimal: ',' }" nz-input id="salary" formControlName="salary" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="registration" nzRequired>Registration</nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24" [nzErrorTip]="errorRegistration">
+          <input nz-input mask="0000000000"  id="employeeRegistration" formControlName="employeeRegistration" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="birth" nzRequired>Birth</nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Birth is required !">
+          <nz-date-picker [nzFormat]="'dd/MM/yyyy'" id="birth" formControlName="birth"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row class="">
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+          <button nz-button nzType="primary" >Register</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+</div>

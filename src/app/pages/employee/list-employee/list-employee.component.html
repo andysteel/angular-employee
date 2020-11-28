@@ -1,0 +1,97 @@
+<nz-table #basicTable
+      [nzLoading]="loading"
+      [nzData]="listOfData"
+      [nzFrontPagination]="false"
+      [nzTitle]="'Employees'"
+      [nzSize]="'small'">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Job Role</th>
+      <th>Salary</th>
+      <th>Registration</th>
+      <th>Birth</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <ng-container>
+      <td>{{ data.name }}</td>
+      <td>{{ data.jobRole }}</td>
+      <td>{{ data.salary | number: '.2-2':'pt-BR' }}</td>
+      <td>{{ data.employeeRegistration | registrationPipe }}</td>
+      <td>{{ data.birth | date: 'dd/MM/yyyy' }}</td>
+      <td>
+        <nz-space>
+          <nz-space-item>
+            <button nz-button><i nz-icon nzType="edit" nzTheme="outline" (click)="showModal(data.id)"></i></button>
+          </nz-space-item>
+          <nz-space-item>
+            <button nz-button><i nz-icon nzType="delete" nzTheme="outline" (click)="showDeleteConfirm(data.id, data.name)" ></i></button>
+          </nz-space-item>
+        </nz-space>
+      </td>
+    </ng-container>
+    </tr>
+  </tbody>
+</nz-table>
+
+<div nz-row>
+  <div nz-col  [nzSpan]="18" [nzOffset]="14">
+    <nz-pagination [nzPageIndex]="pageIndex"
+                  [nzTotal]="total"
+                  [nzShowTotal]="totalTemplate"
+                  nzShowSizeChanger
+                  [nzPageSize]="pageSize"
+                  (nzPageIndexChange)="onPageIndexChange($event)"
+                  (nzPageSizeChange)="onPageSizeChange($event)" ></nz-pagination>
+    <ng-template #totalTemplate let-total> Total {{ total }} employees </ng-template>
+  </div>
+</div>
+
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Update Employee"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="submitForm()"
+  [nzOkLoading]="isOkLoading">
+  <div class="form-style">
+      <form id="updateForm" nz-form [formGroup]="validateForm" >
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="name" nzRequired>Name</nz-form-label>
+          <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Name is required !">
+            <input nz-input formControlName="name" id="name" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="jobRole" nzRequired>Job Role</nz-form-label>
+          <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Job Role is required !">
+            <input nz-input id="jobRole" formControlName="jobRole" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="salary" nzRequired>Salary</nz-form-label>
+          <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Salary is required !">
+              <input currencyMask [options]="{ prefix: 'US$ ', thousands: '.', decimal: ',' }" nz-input
+                id="salary" formControlName="salary" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="registration" nzRequired>Registration</nz-form-label>
+          <nz-form-control [nzSm]="24" [nzXs]="24" [nzErrorTip]="errorRegistration">
+            <input nz-input mask="0000000000"  id="employeeRegistration" formControlName="employeeRegistration" />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="birth" nzRequired>Birth</nz-form-label>
+          <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="The input Birth is required !">
+            <nz-date-picker [nzFormat]="'dd/MM/yyyy'" id="birth" formControlName="birth"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+  </div>
+</nz-modal>
+
+
+
